@@ -12,7 +12,7 @@ class PersonHelper
 
     public function __construct()
     {
-        $this->connection = new DBConnector("Web_Person", "localhost", "root", "MaT_PaK1997");
+        $this->connection = new DBConnector("web_person", "127.0.0.1", "admin", "MaT_PaK1997");
     }
 
     /**

@@ -38,7 +38,7 @@ class PersonController
         $person = new Person();
         $person->setFirstName($request['firstName']);
         $person->setLastName($request['lastName']);
-        $person->setUsername($request['userName']);
+        $person->setUsername($request['username']);
         $helper->insert($person);
     }
 
