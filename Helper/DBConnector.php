@@ -3,29 +3,30 @@
 namespace CRUD\Helper;
 
 use mysql_xdevapi\Exception;
+use mysqli_result;
 
 class DBConnector
 {
-    /** @var mixed $db */
-    private $db;
+    private $dbname;
     private $server;
     private $password;
     private $username;
+    /** @var \mysqli $connection */
+    private $connection;
 
     /**
-     * @param mixed $db
+     * @param $dbname
      * @param $server
      * @param $password
      * @param $username
      */
-    public function __construct($db, $server, $username, $password)
+    public function __construct($dbname, $server, $username, $password)
     {
-        $this->db = $db;
-        $this->server = $server;
+        $this->dbname   = $dbname;
+        $this->server   = $server;
         $this->password = $password;
         $this->username = $username;
     }
-
 
     /**
      * @throws \Exception
@@ -33,21 +34,32 @@ class DBConnector
      */
     public function connect() : void
     {
-        $connection = mysqli_connect($this->server, $this->username, $this->password, $this->db);
-        if (!$connection) {
+        $this->connection = mysqli_connect($this->server, $this->username, $this->password, $this->dbname);
+        if (!$this->connection) {
             throw new Exception(mysqli_connect_error());
-        } else {
-            echo "OK!";
         }
     }
 
     /**
-     * @param string $query
-     * @return bool
+     * @throws \Exception
+     * @return void
      */
-    public function execQuery(string $query) : bool
+    public function disconnet() : void
     {
-        return true;
+        $this->connection->close();
+    }
+
+    /**
+     * @param string $query
+     * @return bool|mysqli_result
+     */
+    public function execQuery(string $query)
+    {
+        try {
+            return $this->connection->query($query);
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     /**

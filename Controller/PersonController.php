@@ -8,6 +8,17 @@ use CRUD\Model\Person;
 
 class PersonController
 {
+    /** @var PersonHelper $helper */
+    private $helper;
+
+    /**
+     * @param PersonHelper $helper
+     */
+    public function __construct()
+    {
+        $this->helper = new PersonHelper();
+    }
+
     public function switcher($uri,$request)
     {
         switch ($uri)
@@ -34,31 +45,34 @@ class PersonController
 
     public function createAction($request)
     {
-        $helper = new PersonHelper();
         $person = new Person();
         $person->setFirstName($request['firstName']);
         $person->setLastName($request['lastName']);
         $person->setUsername($request['username']);
-        $helper->insert($person);
+        $this->helper->insert($person);
     }
 
     public function updateAction($request)
     {
-
+        $person = new Person();
+        $person->setFirstName($request['firstName']);
+        $person->setLastName($request['lastName']);
+        $person->setUsername($request['username']);
+        $this->helper->update($person);
     }
 
     public function readAction($request)
     {
-
+        $this->helper->fetch($request['id']);
     }
     public function readAllAction($request)
     {
-
+        $this->helper->fetchAll();
     }
 
     public function deleteAction($request)
     {
-
+        $this->helper->delete($request['username']);
     }
 
 }
