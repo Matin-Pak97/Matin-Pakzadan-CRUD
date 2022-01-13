@@ -2,7 +2,9 @@
 
 namespace CRUD\Controller;
 
+use CRUD\Helper\PersonHelper;
 use CRUD\Model\Actions;
+use CRUD\Model\Person;
 
 class PersonController
 {
@@ -32,7 +34,12 @@ class PersonController
 
     public function createAction($request)
     {
-
+        $helper = new PersonHelper();
+        $person = new Person();
+        $person->setFirstName($request['firstName']);
+        $person->setLastName($request['lastName']);
+        $person->setUsername($request['userName']);
+        $helper->insert($person);
     }
 
     public function updateAction($request)

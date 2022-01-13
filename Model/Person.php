@@ -16,6 +16,10 @@ class Person
     /** @var string $username */
     private string $username;
 
+    public function __construct()
+    {
+    }
+
     /**
      * @return int
      */
